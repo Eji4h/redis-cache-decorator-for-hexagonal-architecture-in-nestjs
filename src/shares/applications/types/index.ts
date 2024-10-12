@@ -1,2 +1,2 @@
 export * from './nonFunction';
-export * from './only-attributes';
+export * from './onlyAttributes';
