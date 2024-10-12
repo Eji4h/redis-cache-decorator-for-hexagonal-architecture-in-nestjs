@@ -1,4 +1,4 @@
-import { ItemId } from './item-id';
+import { ItemId } from './itemId';
 
 export interface IItem {
   itemId: ItemId;

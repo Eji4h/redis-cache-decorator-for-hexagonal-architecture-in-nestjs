@@ -1,3 +1,3 @@
-import { NonFunctionProperties } from './non-function';
+import { NonFunctionProperties } from './nonFunction';
 
 export type OnlyAttributes<T> = Pick<T, NonFunctionProperties<T>>;

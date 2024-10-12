@@ -1,3 +1,3 @@
 export * from './item.model';
-export * from './item-id';
+export * from './itemId';
 export * from './item.attribute';
