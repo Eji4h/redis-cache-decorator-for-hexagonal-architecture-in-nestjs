@@ -1,0 +1,7 @@
+{
+  "rest-client.environmentVariables": {
+    "local": {
+      "host": "http://localhost:4200"
+    }
+  }
+}

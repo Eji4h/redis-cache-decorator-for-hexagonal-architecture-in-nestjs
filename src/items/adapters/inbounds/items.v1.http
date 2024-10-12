@@ -1,0 +1,7 @@
+# Create Item
+POST {{host}}/v1/items
+Content-Type: application/json
+
+{
+  "name": "Item 1"
+}
