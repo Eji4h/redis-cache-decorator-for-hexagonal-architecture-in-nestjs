@@ -1,12 +1,12 @@
 import { Provider } from '@nestjs/common';
-import { UpdateItemUsecase } from './updateItem.usecase';
+import { UpdateItemCommand, UpdateItemUseCase } from './updateItem.usecase';
 import { GetItemsUseCase } from './getItems.usecase';
 import { GetItemByIdUseCase } from './getItemById.usecase';
 import { DeleteItemByIdUseCase } from './deleteItemById.usecase';
-import { CreateItemUseCase } from './createItem.usecase';
+import { CreateItemCommand, CreateItemUseCase } from './createItem.usecase';
 
 export const UseCases: Provider[] = [
-  UpdateItemUsecase,
+  UpdateItemUseCase,
   GetItemsUseCase,
   GetItemByIdUseCase,
   DeleteItemByIdUseCase,
@@ -14,7 +14,9 @@ export const UseCases: Provider[] = [
 ];
 
 export {
-  UpdateItemUsecase,
+  UpdateItemUseCase,
+  UpdateItemCommand,
+  CreateItemCommand,
   GetItemsUseCase,
   GetItemByIdUseCase,
   DeleteItemByIdUseCase,

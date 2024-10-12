@@ -1,8 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ItemsRepository, ItemsRepositoryToken } from '../ports';
 import { IItem, ItemAttributes } from '../../domains';
-import { CreateItemCommand } from '../commands';
 import { Builder } from 'builder-pattern';
+
+export type CreateItemCommand = Omit<ItemAttributes, 'itemId' | 'available'> &
+  Partial<Pick<ItemAttributes, 'available'>>;
 
 @Injectable()
 export class CreateItemUseCase {
