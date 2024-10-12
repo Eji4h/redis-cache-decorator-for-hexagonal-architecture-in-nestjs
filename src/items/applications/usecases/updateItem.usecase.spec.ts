@@ -1,19 +1,18 @@
 import { mock } from 'jest-mock-extended';
-import { UpdateItemUsecase } from './updateItem.usecase';
+import { UpdateItemUseCase, UpdateItemCommand } from './updateItem.usecase';
 import { ItemsRepository } from '../ports';
 import { Builder, StrictBuilder } from 'builder-pattern';
-import { UpdateItemCommand } from '../commands';
 import { IItem, Item, ItemId } from '../../domains';
 import { NotFoundException } from '@nestjs/common';
 
 describe('UpdateItemUsecase', () => {
   const itemRepository = mock<ItemsRepository>();
-  let updateItemUseCase: UpdateItemUsecase;
+  let updateItemUseCase: UpdateItemUseCase;
 
   const itemId = 'JavaScriptBangkok2.0' as ItemId;
 
   beforeEach(() => {
-    updateItemUseCase = new UpdateItemUsecase(itemRepository);
+    updateItemUseCase = new UpdateItemUseCase(itemRepository);
 
     const item = Builder(Item).itemId(itemId).build();
     itemRepository.findById.mockResolvedValue(item);

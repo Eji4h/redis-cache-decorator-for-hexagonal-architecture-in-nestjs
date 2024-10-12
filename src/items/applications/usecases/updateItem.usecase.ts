@@ -1,11 +1,16 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ItemsRepository, ItemsRepositoryToken } from '../ports';
 import { IItem } from '../../domains';
-import { UpdateItemCommand } from '../commands';
 import { isUndefined } from 'lodash';
 
+import { ItemAttributes, ItemId } from '../../domains';
+
+export interface UpdateItemCommand extends Partial<ItemAttributes> {
+  itemId: ItemId;
+}
+
 @Injectable()
-export class UpdateItemUsecase {
+export class UpdateItemUseCase {
   constructor(
     @Inject(ItemsRepositoryToken)
     private readonly itemRepository: ItemsRepository,
