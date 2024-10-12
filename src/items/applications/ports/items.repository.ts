@@ -1,8 +1,8 @@
 import { IItem, ItemId } from '../../domains';
 
-export const ItemRepositoryToken = Symbol('ItemRepositoryToken');
+export const ItemsRepositoryToken = Symbol('ItemsRepositoryToken');
 
-export interface ItemRepository {
+export interface ItemsRepository {
   create(item: IItem): Promise<IItem>;
   findAll(): Promise<IItem[]>;
   findById(itemId: ItemId): Promise<IItem | undefined>;
