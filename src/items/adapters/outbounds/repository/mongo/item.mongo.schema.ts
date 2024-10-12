@@ -18,5 +18,5 @@ export class ItemSchema implements Omit<ItemMongoModel, '_id'> {
   available: boolean;
 }
 
-export const ItemSchemaMongo = SchemaFactory.createForClass(ItemSchema);
-ItemSchemaMongo.index({ available: 1 });
+export const ItemMongoSchema = SchemaFactory.createForClass(ItemSchema);
+ItemMongoSchema.index({ available: 1 });
