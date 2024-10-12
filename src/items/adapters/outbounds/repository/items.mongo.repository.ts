@@ -12,41 +12,20 @@ export class ItemsMongoRepository implements ItemsRepository {
   constructor(
     @InjectModel(ItemCollectionName)
     private itemModel: Model<ItemMongoModel>,
+    @Inject(ItemsCacheRepositoryToken)
+    private readonly itemCacheRepository: ItemsCacheRepository,
   ) {}
-
-  async create(newItem: Omit<ItemAttributes, 'itemId'>): Promise<IItem> {
-    const newItemModel = new this.itemModel(newItem);
-    const createdItem = await newItemModel.save();
-
-    return ItemsMongoRepository.toDomain(createdItem);
-  }
-
-  async findAll(query: FindAllQuery): Promise<IItem[]> {
-    const items = await this.itemModel.find(query);
-
-    return items.map(ItemsMongoRepository.toDomain);
-  }
-
+  ...
   async findById(itemId: ItemId): Promise<IItem | undefined> {
+    const itemFromCached = await this.itemCacheRepository.get(itemId);
+    if (itemFromCached) {
+      return itemFromCached;
+    }
     const item = await this.itemModel.findById(new Types.ObjectId(itemId));
 
     return item ? ItemsMongoRepository.toDomain(item) : undefined;
   }
-
-  async update(itemToUpdate: IItem): Promise<IItem> {
-    const updateItemModel = await this.itemModel.findByIdAndUpdate(
-      new Types.ObjectId(itemToUpdate.itemId),
-      itemToUpdate,
-      { new: true },
-    );
-
-    return ItemsMongoRepository.toDomain(updateItemModel);
-  }
-
-  async delete(itemId: ItemId): Promise<void> {
-    await this.itemModel.findByIdAndDelete(new Types.ObjectId(itemId));
-  }
-
+  ...
   private static toDomain(itemModel: ItemMongoModel): IItem {
     return Builder(Item)
       .itemId(itemModel._id.toString() as ItemId)

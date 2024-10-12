@@ -7,9 +7,5 @@ export interface FindAllQuery {
 }
 
 export interface ItemsRepository {
-  create(item: Omit<ItemAttributes, 'itemId'>): Promise<IItem>;
-  findAll(query: FindAllQuery): Promise<IItem[]>;
   findById(itemId: ItemId): Promise<IItem | undefined>;
-  update(itemToUpdate: IItem): Promise<IItem>;
-  delete(itemId: ItemId): Promise<void>;
 }
