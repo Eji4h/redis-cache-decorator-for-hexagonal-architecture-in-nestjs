@@ -1,0 +1,29 @@
+### Create Item
+POST {{host}}/items
+Content-Type: application/json
+
+{
+  "name": "Example Item",
+  "price": 100,
+  "available": true,
+  "imageUrl": "https://example.com/image.jpg"
+}
+
+
+### Get Items
+# @name getItems
+GET {{host}}/items
+
+@itemId = {{getItems.response.body.0.itemId}}
+
+### Get Item by Id
+GET {{host}}/items/{{itemId}}
+
+
+### Update Item
+PATCH {{host}}/items/{{itemId}}
+Content-Type: application/json
+
+{
+  "name": "Javascript Bangkon 2.0"
+}

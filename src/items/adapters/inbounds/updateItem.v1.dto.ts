@@ -1,5 +1,3 @@
-import { UpdateItemCommand } from '../../applications/commands';
-
 import {
   IsBoolean,
   IsNotEmpty,
@@ -8,6 +6,7 @@ import {
   IsString,
   IsUrl,
 } from 'class-validator';
+import { UpdateItemCommand } from '../../applications/usecases';
 
 export class UpdateItemV1Dto implements Omit<UpdateItemCommand, 'itemId'> {
   @IsString()
