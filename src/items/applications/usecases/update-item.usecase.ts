@@ -1,12 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { ItemRepository } from '../ports/item.repository';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ItemRepository, ItemRepositoryToken } from '../ports';
 import { IItem } from '../../domains';
 import { UpdateItemCommand } from '../commands';
 import { isUndefined } from 'lodash';
 
 @Injectable()
 export class UpdateItemUsecase {
-  constructor(private readonly itemRepository: ItemRepository) {}
+  constructor(
+    @Inject(ItemRepositoryToken)
+    private readonly itemRepository: ItemRepository,
+  ) {}
 
   async execute(command: UpdateItemCommand): Promise<IItem> {
     const item = await this.itemRepository.findById(command.itemId);
