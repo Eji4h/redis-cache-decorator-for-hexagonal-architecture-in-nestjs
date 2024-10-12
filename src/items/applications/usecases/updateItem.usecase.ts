@@ -1,7 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ItemsRepository, ItemsRepositoryToken } from '../ports';
 import { IItem } from '../../domains';
-import { isUndefined } from 'lodash';
 
 import { ItemAttributes, ItemId } from '../../domains';
 
@@ -19,27 +18,27 @@ export class UpdateItemUseCase {
   async execute(command: UpdateItemCommand): Promise<IItem> {
     const item = await this.itemRepository.findById(command.itemId);
 
-    const isItemFound = !isUndefined(item);
+    const isItemFound = item !== undefined;
     if (!isItemFound) {
       throw new NotFoundException();
     }
 
-    const isWantToChangeName = !isUndefined(command.name);
+    const isWantToChangeName = command.name !== undefined;
     if (isWantToChangeName) {
       item.changeName(command.name);
     }
 
-    const isWantToChangePrice = !isUndefined(command.price);
+    const isWantToChangePrice = command.price !== undefined;
     if (isWantToChangePrice) {
       item.changePrice(command.price);
     }
 
-    const isWantToChangeImageUrl = !isUndefined(command.imageUrl);
+    const isWantToChangeImageUrl = command.imageUrl !== undefined;
     if (isWantToChangeImageUrl) {
       item.changeImageUrl(command.imageUrl);
     }
 
-    const isWantToChangeAvailableStatus = !isUndefined(command.available);
+    const isWantToChangeAvailableStatus = command.available !== undefined;
     if (isWantToChangeAvailableStatus) {
       item.changeAvailableStatus(command.available);
     }

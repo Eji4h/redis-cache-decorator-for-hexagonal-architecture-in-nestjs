@@ -1,7 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ItemsRepository, ItemsRepositoryToken } from '../ports';
 import { IItem, ItemId } from '../../domains';
-import { isUndefined } from 'lodash';
 
 @Injectable()
 export class GetItemByIdUseCase {
@@ -13,7 +12,7 @@ export class GetItemByIdUseCase {
   async execute(itemId: ItemId): Promise<IItem> {
     const item = await this.itemRepository.findById(itemId);
 
-    const isItemFound = !isUndefined(item);
+    const isItemFound = item !== undefined;
     if (!isItemFound) {
       throw new NotFoundException();
     }
