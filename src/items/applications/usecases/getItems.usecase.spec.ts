@@ -1,6 +1,6 @@
 import { mock } from 'jest-mock-extended';
 import { ItemsRepository } from '../ports';
-import { GetItemsUseCase } from './get-items.usecase';
+import { GetItemsUseCase } from './getItems.usecase';
 import { Builder } from 'builder-pattern';
 import { IItem, ItemId } from '../../domains';
 

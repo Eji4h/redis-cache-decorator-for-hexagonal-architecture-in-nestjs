@@ -1,5 +1,5 @@
 import { mock } from 'jest-mock-extended';
-import { UpdateItemUsecase } from './update-item.usecase';
+import { UpdateItemUsecase } from './updateItem.usecase';
 import { ItemsRepository } from '../ports';
 import { Builder, StrictBuilder } from 'builder-pattern';
 import { UpdateItemCommand } from '../commands';
