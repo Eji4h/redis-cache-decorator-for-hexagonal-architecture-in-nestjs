@@ -23,7 +23,7 @@ import { UpdateItemV1Dto } from './updateItem.v1.dto';
 import { CreateItemV1Dto } from './createItem.v1.dto';
 import { GetItemsV1Dto } from './getItems.v1.dto';
 
-@Controller({ path: 'items', version: '1' })
+@Controller('items')
 export class ItemsV1Controller {
   constructor(
     private readonly createItemUseCase: CreateItemUseCase,
