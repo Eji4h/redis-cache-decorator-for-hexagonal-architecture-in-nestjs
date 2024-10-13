@@ -2,7 +2,7 @@ import { mock } from 'jest-mock-extended';
 import { UpdateItemUseCase, UpdateItemCommand } from './updateItem.usecase';
 import { ItemsRepository } from '../ports';
 import { Builder, StrictBuilder } from 'builder-pattern';
-import { IItem, Item, ItemId } from '../../domains';
+import { IItem, Item, ItemColor, ItemId, ItemStatus } from '../../domains';
 import { NotFoundException } from '@nestjs/common';
 
 describe('UpdateItemUsecase', () => {
@@ -14,7 +14,7 @@ describe('UpdateItemUsecase', () => {
   beforeEach(() => {
     updateItemUseCase = new UpdateItemUseCase(itemRepository);
 
-    const item = Builder(Item).itemId(itemId).build();
+    const item = Builder(Item).id(itemId).build();
     itemRepository.findById.mockResolvedValue(item);
   });
 
@@ -24,27 +24,27 @@ describe('UpdateItemUsecase', () => {
 
   it('should throw NotFoundException if item not found', async () => {
     // Arrange
-    const command = StrictBuilder<UpdateItemCommand>().itemId(itemId).build();
+    const command = StrictBuilder<UpdateItemCommand>().id(itemId).build();
     itemRepository.findById.mockResolvedValue(undefined);
 
-    const expected = NotFoundException;
+    const expectedError = NotFoundException;
 
     // Act
     const actualPromise = updateItemUseCase.execute(command);
 
     // Assert
-    await expect(actualPromise).rejects.toThrow(expected);
+    await expect(actualPromise).rejects.toThrow(expectedError);
   });
 
   it("should change item's name", async () => {
     // Arrange
     const nameToChange = 'item-name-1';
     const command = StrictBuilder<UpdateItemCommand>()
-      .itemId(itemId)
+      .id(itemId)
       .name('item-name-1')
       .build();
 
-    const expected = Builder<IItem>().itemId(itemId).name(nameToChange).build();
+    const expected = Builder<IItem>().id(itemId).name(nameToChange).build();
 
     // Act
     await updateItemUseCase.execute(command);
@@ -57,11 +57,11 @@ describe('UpdateItemUsecase', () => {
     // Arrange
     const newPrice = 1000;
     const command = StrictBuilder<UpdateItemCommand>()
-      .itemId(itemId)
+      .id(itemId)
       .price(newPrice)
       .build();
 
-    const expected = Builder<IItem>().itemId(itemId).price(newPrice).build();
+    const expected = Builder<IItem>().id(itemId).price(newPrice).build();
 
     // Act
     await updateItemUseCase.execute(command);
@@ -74,14 +74,11 @@ describe('UpdateItemUsecase', () => {
     // Arrange
     const newImageUrl = 'https://example.com/image.jpg';
     const command = StrictBuilder<UpdateItemCommand>()
-      .itemId(itemId)
+      .id(itemId)
       .imageUrl(newImageUrl)
       .build();
 
-    const expected = Builder<IItem>()
-      .itemId(itemId)
-      .imageUrl(newImageUrl)
-      .build();
+    const expected = Builder<IItem>().id(itemId).imageUrl(newImageUrl).build();
 
     // Act
     await updateItemUseCase.execute(command);
@@ -90,18 +87,32 @@ describe('UpdateItemUsecase', () => {
     expect(itemRepository.update).toHaveBeenCalledWith(expected);
   });
 
-  it("should change item's available", async () => {
+  it("should change item's status", async () => {
     // Arrange
-    const newAvailable = false;
+    const newStatus = ItemStatus.Unavailable;
     const command = StrictBuilder<UpdateItemCommand>()
-      .itemId(itemId)
-      .available(newAvailable)
+      .id(itemId)
+      .status(newStatus)
       .build();
 
-    const expected = Builder<IItem>()
-      .itemId(itemId)
-      .available(newAvailable)
+    const expected = Builder<IItem>().id(itemId).status(newStatus).build();
+
+    // Act
+    await updateItemUseCase.execute(command);
+
+    // Assert
+    expect(itemRepository.update).toHaveBeenCalledWith(expected);
+  });
+
+  it("should change item's color", async () => {
+    // Arrange
+    const newColor = ItemColor.Red;
+    const command = StrictBuilder<UpdateItemCommand>()
+      .id(itemId)
+      .color(newColor)
       .build();
+
+    const expected = Builder<IItem>().id(itemId).color(newColor).build();
 
     // Act
     await updateItemUseCase.execute(command);
@@ -112,16 +123,13 @@ describe('UpdateItemUsecase', () => {
 
   it('should return updated item', async () => {
     // Arrange
-    const command = StrictBuilder<UpdateItemCommand>().itemId(itemId).build();
+    const command = StrictBuilder<UpdateItemCommand>().id(itemId).build();
     const nameToChange = 'updated-name';
 
-    const updatedItem = Builder<IItem>()
-      .itemId(itemId)
-      .name(nameToChange)
-      .build();
+    const updatedItem = Builder<IItem>().id(itemId).name(nameToChange).build();
     itemRepository.update.mockResolvedValue(updatedItem);
 
-    const expected = Builder<IItem>().itemId(itemId).name(nameToChange).build();
+    const expected = Builder<IItem>().id(itemId).name(nameToChange).build();
 
     // Act
     const actual = await updateItemUseCase.execute(command);

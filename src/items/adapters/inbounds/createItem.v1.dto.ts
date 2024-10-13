@@ -1,7 +1,8 @@
+import { ItemStatus, ItemColor } from 'src/items/domains';
 import { CreateItemCommand } from '../../applications/usecases';
 
 import {
-  IsBoolean,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -21,7 +22,10 @@ export class CreateItemV1Dto implements CreateItemCommand {
   @IsNotEmpty()
   imageUrl: string;
 
-  @IsBoolean()
+  @IsEnum(ItemStatus)
   @IsOptional()
-  available?: boolean;
+  status?: ItemStatus;
+
+  @IsEnum(ItemColor)
+  color: ItemColor;
 }

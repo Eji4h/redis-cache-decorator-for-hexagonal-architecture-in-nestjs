@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ItemId } from '../../domains';
 import { ItemsRepositoryToken, ItemsRepository } from '../ports';
 
@@ -10,6 +10,12 @@ export class DeleteItemByIdUseCase {
   ) {}
 
   async execute(itemId: ItemId): Promise<void> {
-    await this.itemRepository.delete(itemId);
+    const itemToDelete = await this.itemRepository.findById(itemId);
+    if (!itemToDelete) {
+      throw new NotFoundException();
+    }
+    itemToDelete.obsoleted();
+
+    await this.itemRepository.update(itemToDelete);
   }
 }

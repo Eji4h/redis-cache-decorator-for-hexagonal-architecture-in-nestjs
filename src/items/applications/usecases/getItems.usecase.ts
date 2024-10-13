@@ -3,10 +3,13 @@ import {
   ItemsRepository,
   ItemsRepositoryToken,
 } from '../ports/items.repository';
-import { IItem } from '../../domains';
+import { IItem, ItemColor } from '../../domains';
+
+import { ItemStatus } from '../../domains';
 
 export interface GetItemsQuery {
-  available?: boolean;
+  status?: ItemStatus;
+  color?: ItemColor;
 }
 
 @Injectable()
@@ -17,6 +20,6 @@ export class GetItemsUseCase {
   ) {}
 
   async execute(query: GetItemsQuery): Promise<IItem[]> {
-    return this.itemRepository.findAll(query);
+    return this.itemRepository.findByStatusAndColor(query.status, query.color);
   }
 }
