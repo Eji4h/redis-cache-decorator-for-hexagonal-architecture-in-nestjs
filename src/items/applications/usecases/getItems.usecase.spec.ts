@@ -61,14 +61,14 @@ describe('GetItemsUsecase', () => {
 
       itemRepository.findByStatusAndColor.mockResolvedValue([item1, item2]);
 
-      const expected = { status };
+      const expected = [status, color];
 
       // Act
       await getItemsUseCase.execute(query);
 
       // Assert
       expect(itemRepository.findByStatusAndColor).toHaveBeenCalledWith(
-        expected,
+        ...expected,
       );
     },
   );
