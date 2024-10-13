@@ -28,7 +28,7 @@ export class ItemsMongoRepository implements ItemsRepository {
     baseKey: ItemsMongoRepository.cacheKey,
     keyCombinations: [['id']],
   })
-  async create(newItem: Omit<ItemAttributes, 'id'>): Promise<IItem> {
+  async create(newItem: IItem): Promise<IItem> {
     const newItemModel = new this.itemModel(newItem);
     const createdItem = await newItemModel.save();
 

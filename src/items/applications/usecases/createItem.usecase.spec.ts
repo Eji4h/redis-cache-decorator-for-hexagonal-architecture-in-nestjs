@@ -2,7 +2,7 @@ import { mock } from 'jest-mock-extended';
 import { ItemsRepository } from '../ports';
 import { CreateItemUseCase, CreateItemCommand } from './createItem.usecase';
 import { Builder, StrictBuilder } from 'builder-pattern';
-import { ItemAttributes, ItemColor, ItemStatus } from '../../domains';
+import { Item, ItemColor, ItemStatus } from '../../domains';
 
 describe('CreateItemUseCase', () => {
   const itemRepository = mock<ItemsRepository>();
@@ -29,7 +29,7 @@ describe('CreateItemUseCase', () => {
       .color(itemColor)
       .build();
 
-    const expectedItem = Builder<ItemAttributes>()
+    const expectedItem = Builder(Item)
       .name(itemName)
       .price(itemPrice)
       .imageUrl(itemImageUrl)
@@ -50,13 +50,15 @@ describe('CreateItemUseCase', () => {
       .name(itemName)
       .price(itemPrice)
       .imageUrl(itemImageUrl)
+      .color(itemColor)
       .build();
 
-    const expectedItem = Builder<Parameters<ItemsRepository['create']>[0]>()
+    const expectedItem = Builder(Item)
       .name(itemName)
       .price(itemPrice)
       .imageUrl(itemImageUrl)
       .status(ItemStatus.Available)
+      .color(itemColor)
       .build();
 
     // Act

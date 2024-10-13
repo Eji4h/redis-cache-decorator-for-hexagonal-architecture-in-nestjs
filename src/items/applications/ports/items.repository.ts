@@ -1,10 +1,4 @@
-import {
-  IItem,
-  ItemAttributes,
-  ItemId,
-  ItemColor,
-  ItemStatus,
-} from '../../domains';
+import { IItem, ItemId, ItemColor, ItemStatus } from '../../domains';
 
 export const ItemsRepositoryToken = Symbol('ItemsRepositoryToken').toString();
 
@@ -14,7 +8,7 @@ export interface FindAllQuery {
 }
 
 export interface ItemsRepository {
-  create(item: Omit<ItemAttributes, 'id'>): Promise<IItem>;
+  create(item: IItem): Promise<IItem>;
   findAll(query: FindAllQuery): Promise<IItem[]>;
   findById(itemId: ItemId): Promise<IItem | undefined>;
   update(itemToUpdate: IItem): Promise<IItem>;

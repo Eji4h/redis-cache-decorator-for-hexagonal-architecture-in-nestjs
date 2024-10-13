@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ItemsRepository, ItemsRepositoryToken } from '../ports';
-import { IItem, ItemAttributes, ItemStatus } from '../../domains';
-import { Builder } from 'builder-pattern';
+import { IItem, ItemAttributes, ItemFactory, ItemStatus } from '../../domains';
 
 export type CreateItemCommand = Omit<ItemAttributes, 'id' | 'status'> &
   Partial<Pick<ItemAttributes, 'status'>>;
@@ -13,15 +12,20 @@ export class CreateItemUseCase {
     private readonly itemRepository: ItemsRepository,
   ) {}
 
-  async execute(command: CreateItemCommand): Promise<IItem> {
-    const itemToCreate = Builder<ItemAttributes>()
-      .name(command.name)
-      .price(command.price)
-      .imageUrl(command.imageUrl)
-      .status(command.status ?? ItemStatus.Available)
-      .color(command.color)
-      .build();
-
+  async execute({
+    name,
+    price,
+    imageUrl,
+    status,
+    color,
+  }: CreateItemCommand): Promise<IItem> {
+    const itemToCreate = ItemFactory.create({
+      name,
+      price,
+      imageUrl,
+      status: status ?? ItemStatus.Available,
+      color,
+    });
     return this.itemRepository.create(itemToCreate);
   }
 }
