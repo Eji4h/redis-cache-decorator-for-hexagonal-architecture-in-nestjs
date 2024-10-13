@@ -5,7 +5,7 @@ import { IItem } from '../../domains';
 import { ItemAttributes, ItemId } from '../../domains';
 
 export interface UpdateItemCommand extends Partial<ItemAttributes> {
-  itemId: ItemId;
+  id: ItemId;
 }
 
 @Injectable()
@@ -16,7 +16,7 @@ export class UpdateItemUseCase {
   ) {}
 
   async execute(command: UpdateItemCommand): Promise<IItem> {
-    const item = await this.itemRepository.findById(command.itemId);
+    const item = await this.itemRepository.findById(command.id);
 
     const isItemFound = item !== undefined;
     if (!isItemFound) {
@@ -38,9 +38,14 @@ export class UpdateItemUseCase {
       item.changeImageUrl(command.imageUrl);
     }
 
-    const isWantToChangeAvailableStatus = command.available !== undefined;
-    if (isWantToChangeAvailableStatus) {
-      item.changeAvailableStatus(command.available);
+    const isWantToChangeStatus = command.status !== undefined;
+    if (isWantToChangeStatus) {
+      item.changeStatus(command.status);
+    }
+
+    const isWantToChangeColor = command.color !== undefined;
+    if (isWantToChangeColor) {
+      item.changeColor(command.color);
     }
 
     return this.itemRepository.update(item);

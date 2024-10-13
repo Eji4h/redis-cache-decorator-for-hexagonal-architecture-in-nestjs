@@ -49,7 +49,8 @@ export class ItemsV1Controller {
       .name(body.name)
       .price(body.price)
       .imageUrl(body.imageUrl)
-      .available(body.available)
+      .status(body.status)
+      .color(body.color)
       .build();
     return this.createItemUseCase.execute(command);
   }
@@ -60,11 +61,12 @@ export class ItemsV1Controller {
     @Body() body: UpdateItemV1Dto,
   ) {
     const command = StrictBuilder<UpdateItemCommand>()
-      .itemId(itemId)
+      .id(itemId)
       .name(body.name)
       .price(body.price)
       .imageUrl(body.imageUrl)
-      .available(body.available)
+      .status(body.status)
+      .color(body.color)
       .build();
     return this.updateItemUseCase.execute(command);
   }

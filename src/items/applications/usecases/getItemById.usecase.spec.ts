@@ -35,7 +35,7 @@ describe('GetItemByIdUsecase', () => {
 
   it('should return item if item is found', async () => {
     // Arrange
-    const item = Builder<IItem>().itemId(itemId).build();
+    const item = Builder<IItem>().id(itemId).build();
 
     itemRepository.findById.mockResolvedValue(item);
 

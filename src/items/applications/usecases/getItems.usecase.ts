@@ -3,10 +3,13 @@ import {
   ItemsRepository,
   ItemsRepositoryToken,
 } from '../ports/items.repository';
-import { IItem } from '../../domains';
+import { IItem, ItemColor } from '../../domains';
+
+import { ItemStatus } from '../../domains';
 
 export interface GetItemsQuery {
-  available?: boolean;
+  status?: ItemStatus;
+  color?: ItemColor;
 }
 
 @Injectable()

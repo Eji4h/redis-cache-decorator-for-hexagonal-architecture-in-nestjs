@@ -16,10 +16,10 @@ describe('GetItemsUsecase', () => {
   it('should return all items', async () => {
     // Arrange
     const itemId1 = 'JavaScript' as ItemId;
-    const item1 = Builder<IItem>().itemId(itemId1).build();
+    const item1 = Builder<IItem>().id(itemId1).build();
 
     const itemId2 = 'Bangkok2.0' as ItemId;
-    const item2 = Builder<IItem>().itemId(itemId2).build();
+    const item2 = Builder<IItem>().id(itemId2).build();
 
     itemRepository.findAll.mockResolvedValue([item1, item2]);
 
@@ -44,10 +44,10 @@ describe('GetItemsUsecase', () => {
       const query = { available };
 
       const itemId1 = 'JavaScript' as ItemId;
-      const item1 = Builder<IItem>().itemId(itemId1).available(true).build();
+      const item1 = Builder<IItem>().id(itemId1).available(true).build();
 
       const itemId2 = 'Bangkok2.0' as ItemId;
-      const item2 = Builder<IItem>().itemId(itemId2).available(true).build();
+      const item2 = Builder<IItem>().id(itemId2).available(true).build();
 
       itemRepository.findAll.mockResolvedValue([item1, item2]);
 

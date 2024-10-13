@@ -2,7 +2,7 @@ import { mock } from 'jest-mock-extended';
 import { ItemsRepository } from '../ports';
 import { CreateItemUseCase, CreateItemCommand } from './createItem.usecase';
 import { Builder, StrictBuilder } from 'builder-pattern';
-import { ItemAttributes } from '../../domains';
+import { ItemAttributes, ItemColor, ItemStatus } from '../../domains';
 
 describe('CreateItemUseCase', () => {
   const itemRepository = mock<ItemsRepository>();
@@ -12,7 +12,8 @@ describe('CreateItemUseCase', () => {
   const itemName = 'JavaScriptBangkok2.0';
   const itemPrice = 100;
   const itemImageUrl = 'https://example.com/image.png';
-  const itemAvailable = true;
+  const itemStatus = ItemStatus.Available;
+  const itemColor = ItemColor.Red;
 
   beforeEach(() => {
     useCase = new CreateItemUseCase(itemRepository);
@@ -24,14 +25,16 @@ describe('CreateItemUseCase', () => {
       .name(itemName)
       .price(itemPrice)
       .imageUrl(itemImageUrl)
-      .available(itemAvailable)
+      .status(itemStatus)
+      .color(itemColor)
       .build();
 
     const expectedItem = Builder<ItemAttributes>()
       .name(itemName)
       .price(itemPrice)
       .imageUrl(itemImageUrl)
-      .available(itemAvailable)
+      .status(itemStatus)
+      .color(itemColor)
       .build();
 
     // Act
@@ -53,7 +56,7 @@ describe('CreateItemUseCase', () => {
       .name(itemName)
       .price(itemPrice)
       .imageUrl(itemImageUrl)
-      .available(true)
+      .status(ItemStatus.Available)
       .build();
 
     // Act

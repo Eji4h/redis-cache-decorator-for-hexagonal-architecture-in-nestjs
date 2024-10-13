@@ -1,5 +1,5 @@
 import {
-  IsBoolean,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -7,8 +7,9 @@ import {
   IsUrl,
 } from 'class-validator';
 import { UpdateItemCommand } from '../../applications/usecases';
+import { ItemStatus, ItemColor } from '../../domains';
 
-export class UpdateItemV1Dto implements Omit<UpdateItemCommand, 'itemId'> {
+export class UpdateItemV1Dto implements Omit<UpdateItemCommand, 'id'> {
   @IsString()
   @IsOptional()
   @IsNotEmpty()
@@ -23,7 +24,11 @@ export class UpdateItemV1Dto implements Omit<UpdateItemCommand, 'itemId'> {
   @IsOptional()
   imageUrl?: string;
 
-  @IsBoolean()
+  @IsEnum(ItemStatus)
   @IsOptional()
-  available?: boolean;
+  status?: ItemStatus;
+
+  @IsEnum(ItemColor)
+  @IsOptional()
+  color?: ItemColor;
 }

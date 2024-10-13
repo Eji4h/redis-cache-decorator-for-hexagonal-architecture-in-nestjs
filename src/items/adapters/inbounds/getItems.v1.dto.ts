@@ -1,10 +1,12 @@
-import { Transform } from 'class-transformer';
-import { IsBoolean, IsOptional } from 'class-validator';
-import { booleanParser } from '../../../shares/adapters/inbounds/boolean.parser';
+import { IsEnum, IsOptional } from 'class-validator';
+import { ItemStatus, ItemColor } from '../../domains';
 
 export class GetItemsV1Dto {
   @IsOptional()
-  @IsBoolean()
-  @Transform(({ value }) => booleanParser(value))
-  available?: boolean;
+  @IsEnum(ItemStatus)
+  status?: ItemStatus;
+
+  @IsOptional()
+  @IsEnum(ItemColor)
+  color?: ItemColor;
 }

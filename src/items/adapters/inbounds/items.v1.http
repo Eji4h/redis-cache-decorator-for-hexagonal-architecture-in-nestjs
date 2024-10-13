@@ -5,7 +5,8 @@ Content-Type: application/json
 {
   "name": "Example Item",
   "price": 100,
-  "available": true,
+  "status": "Available",
+  "color": "Red",
   "imageUrl": "https://example.com/image.jpg"
 }
 
