@@ -20,6 +20,6 @@ export class GetItemsUseCase {
   ) {}
 
   async execute(query: GetItemsQuery): Promise<IItem[]> {
-    return this.itemRepository.findAll(query);
+    return this.itemRepository.findByStatusAndColor(query.status, query.color);
   }
 }

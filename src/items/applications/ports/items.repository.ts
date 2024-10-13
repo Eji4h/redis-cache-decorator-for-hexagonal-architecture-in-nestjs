@@ -9,7 +9,10 @@ export interface FindAllQuery {
 
 export interface ItemsRepository {
   create(item: IItem): Promise<IItem>;
-  findAll(query: FindAllQuery): Promise<IItem[]>;
+  findByStatusAndColor(
+    status: ItemStatus | undefined,
+    color: ItemColor | undefined,
+  ): Promise<IItem[]>;
   findById(itemId: ItemId): Promise<IItem | undefined>;
   update(itemToUpdate: IItem): Promise<IItem>;
   delete(itemId: ItemId): Promise<void>;

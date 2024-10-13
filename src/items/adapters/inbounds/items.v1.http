@@ -13,7 +13,7 @@ Content-Type: application/json
 
 ### Get Items
 # @name getItems
-GET {{host}}/items
+GET {{host}}/items?status=Available&color=Red
 
 @itemId = {{getItems.response.body.0.itemId}}
 

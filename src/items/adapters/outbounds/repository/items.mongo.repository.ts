@@ -3,7 +3,7 @@ import { FindAllQuery, ItemsRepository } from '../../../applications/ports';
 import { InjectModel } from '@nestjs/mongoose';
 import { ItemCollectionName } from './mongo/item.mongo.schema';
 import { Model, Types } from 'mongoose';
-import { ItemAttributes, IItem, ItemId, Item } from '../../../domains';
+import { IItem, ItemId, Item, ItemStatus, ItemColor } from '../../../domains';
 import { ItemMongoModel } from './mongo/item.mongo.model';
 import { Builder } from 'builder-pattern';
 import {
@@ -26,7 +26,7 @@ export class ItemsMongoRepository implements ItemsRepository {
 
   @InvalidateRedisCacheForRepository({
     baseKey: ItemsMongoRepository.cacheKey,
-    keyCombinations: [['id']],
+    keyCombinations: [['id'], ['status', 'color']],
   })
   async create(newItem: IItem): Promise<IItem> {
     const newItemModel = new this.itemModel(newItem);
@@ -39,9 +39,13 @@ export class ItemsMongoRepository implements ItemsRepository {
     baseKey: ItemsMongoRepository.cacheKey,
     mapper: ItemsMongoRepository.toDomain,
     ttlMinutes: redisCacheTtlMinutes,
+    keyNames: ['status', 'color'],
   })
-  async findAll(query: FindAllQuery): Promise<IItem[]> {
-    const items = await this.itemModel.find(query);
+  async findByStatusAndColor(
+    status: ItemStatus | undefined,
+    color: ItemColor | undefined,
+  ): Promise<IItem[]> {
+    const items = await this.itemModel.find({ status, color });
     console.debug(
       'Request was flighted through mongoose repository to find all',
     );
@@ -67,7 +71,7 @@ export class ItemsMongoRepository implements ItemsRepository {
 
   @InvalidateRedisCacheForRepository({
     baseKey: ItemsMongoRepository.cacheKey,
-    keyCombinations: [['id']],
+    keyCombinations: [['id'], ['status', 'color']],
   })
   async update(itemToUpdate: IItem): Promise<IItem> {
     const updateItemModel = await this.itemModel.findByIdAndUpdate(
@@ -81,7 +85,7 @@ export class ItemsMongoRepository implements ItemsRepository {
 
   @InvalidateRedisCacheForRepository({
     baseKey: ItemsMongoRepository.cacheKey,
-    keyCombinations: [['id']],
+    keyCombinations: [['id'], ['status', 'color']],
   })
   async delete(itemId: ItemId): Promise<void> {
     await this.itemModel.findByIdAndDelete(new Types.ObjectId(itemId));

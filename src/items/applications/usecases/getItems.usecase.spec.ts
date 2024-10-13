@@ -21,7 +21,7 @@ describe('GetItemsUsecase', () => {
     const itemId2 = 'Bangkok2.0' as ItemId;
     const item2 = Builder<IItem>().id(itemId2).build();
 
-    itemRepository.findAll.mockResolvedValue([item1, item2]);
+    itemRepository.findByStatusAndColor.mockResolvedValue([item1, item2]);
 
     const expected = [item1, item2];
 
@@ -59,7 +59,7 @@ describe('GetItemsUsecase', () => {
         .status(ItemStatus.Available)
         .build();
 
-      itemRepository.findAll.mockResolvedValue([item1, item2]);
+      itemRepository.findByStatusAndColor.mockResolvedValue([item1, item2]);
 
       const expected = { status };
 
@@ -67,7 +67,9 @@ describe('GetItemsUsecase', () => {
       await getItemsUseCase.execute(query);
 
       // Assert
-      expect(itemRepository.findAll).toHaveBeenCalledWith(expected);
+      expect(itemRepository.findByStatusAndColor).toHaveBeenCalledWith(
+        expected,
+      );
     },
   );
 });
