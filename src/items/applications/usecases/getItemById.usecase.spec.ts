@@ -24,13 +24,13 @@ describe('GetItemByIdUsecase', () => {
     // Arrange
     itemRepository.findById.mockResolvedValue(undefined);
 
-    const expected = NotFoundException;
+    const expectedError = NotFoundException;
 
     // Act
     const actualPromise = getItemByIdUseCase.execute(itemId);
 
     // Assert
-    await expect(actualPromise).rejects.toThrow(expected);
+    await expect(actualPromise).rejects.toThrow(expectedError);
   });
 
   it('should return item if item is found', async () => {

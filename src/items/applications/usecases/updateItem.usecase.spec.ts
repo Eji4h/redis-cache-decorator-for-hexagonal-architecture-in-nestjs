@@ -27,13 +27,13 @@ describe('UpdateItemUsecase', () => {
     const command = StrictBuilder<UpdateItemCommand>().id(itemId).build();
     itemRepository.findById.mockResolvedValue(undefined);
 
-    const expected = NotFoundException;
+    const expectedError = NotFoundException;
 
     // Act
     const actualPromise = updateItemUseCase.execute(command);
 
     // Assert
-    await expect(actualPromise).rejects.toThrow(expected);
+    await expect(actualPromise).rejects.toThrow(expectedError);
   });
 
   it("should change item's name", async () => {

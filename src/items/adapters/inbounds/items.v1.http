@@ -1,21 +1,44 @@
-### Create Item
+### Create Item which color is Red
 POST {{host}}/items
 Content-Type: application/json
 
 {
-  "name": "Example Item",
+  "name": "Example Item Red 1",
   "price": 100,
   "status": "Available",
   "color": "Red",
   "imageUrl": "https://example.com/image.jpg"
 }
 
+### Create Item which color is Blue
+POST {{host}}/items
+Content-Type: application/json
 
-### Get Items
-# @name getItems
+{
+  "name": "Example Item Blue 2",
+  "price": 100,
+  "status": "Available",
+  "color": "Blue",
+  "imageUrl": "https://example.com/image.jpg"
+}
+
+### Get all items
+# @name getAllItems
+GET {{host}}/items
+
+@itemId = {{getAllItems.response.body.0.id}}
+
+### Get Items by status
+# @name getItemsByStatus
+GET {{host}}/items?status=Available
+
+### Get Items by color
+# @name getItemsByColor
+GET {{host}}/items?color=Blue
+
+### Get Items by status and color
+# @name getItemsByStatusAndColor
 GET {{host}}/items?status=Available&color=Red
-
-@itemId = {{getItems.response.body.0.itemId}}
 
 ### Get Item by Id
 GET {{host}}/items/{{itemId}}
@@ -28,3 +51,6 @@ Content-Type: application/json
 {
   "name": "Javascript Bangkon 2.0"
 }
+
+### Delete Item
+DELETE {{host}}/items/{{itemId}}

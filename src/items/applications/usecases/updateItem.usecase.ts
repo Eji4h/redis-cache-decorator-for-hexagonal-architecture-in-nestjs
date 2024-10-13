@@ -38,14 +38,14 @@ export class UpdateItemUseCase {
       item.changeImageUrl(command.imageUrl);
     }
 
-    const isWantToChangeStatus = command.status !== undefined;
-    if (isWantToChangeStatus) {
-      item.changeStatus(command.status);
-    }
-
     const isWantToChangeColor = command.color !== undefined;
     if (isWantToChangeColor) {
       item.changeColor(command.color);
+    }
+
+    const isWantToChangeStatus = command.status !== undefined;
+    if (isWantToChangeStatus) {
+      item.changeStatus(command.status);
     }
 
     return this.itemRepository.update(item);

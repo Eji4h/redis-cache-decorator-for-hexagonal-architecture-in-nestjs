@@ -23,4 +23,4 @@ export class ItemSchema implements Omit<ItemMongoModel, '_id'> {
 }
 
 export const ItemMongoSchema = SchemaFactory.createForClass(ItemSchema);
-ItemMongoSchema.index({ available: 1 });
+ItemMongoSchema.index({ status: 1, color: 1 });

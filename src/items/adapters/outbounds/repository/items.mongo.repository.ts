@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { FindAllQuery, ItemsRepository } from '../../../applications/ports';
+import { ItemsRepository } from '../../../applications/ports';
 import { InjectModel } from '@nestjs/mongoose';
 import { ItemCollectionName } from './mongo/item.mongo.schema';
-import { Model, Types } from 'mongoose';
+import { Model, RootFilterQuery, Types } from 'mongoose';
 import { IItem, ItemId, Item, ItemStatus, ItemColor } from '../../../domains';
 import { ItemMongoModel } from './mongo/item.mongo.model';
 import { Builder } from 'builder-pattern';
@@ -12,6 +12,7 @@ import {
 } from '../../../../shares/adapters/redisCache';
 import { redisCacheTtlMinutes } from '../../../../shares/adapters/configs';
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
+import { isUndefined, omitBy } from 'lodash';
 
 @Injectable()
 export class ItemsMongoRepository implements ItemsRepository {
@@ -45,7 +46,14 @@ export class ItemsMongoRepository implements ItemsRepository {
     status: ItemStatus | undefined,
     color: ItemColor | undefined,
   ): Promise<IItem[]> {
-    const items = await this.itemModel.find({ status, color });
+    const findBy: RootFilterQuery<ItemMongoModel> = {
+      status,
+      color,
+    };
+
+    const finalQuery = omitBy(findBy, isUndefined);
+
+    const items = await this.itemModel.find(finalQuery);
     console.debug(
       'Request was flighted through mongoose repository to find all',
     );
@@ -81,14 +89,6 @@ export class ItemsMongoRepository implements ItemsRepository {
     );
 
     return ItemsMongoRepository.toDomain(updateItemModel);
-  }
-
-  @InvalidateRedisCacheForRepository({
-    baseKey: ItemsMongoRepository.cacheKey,
-    keyCombinations: [['id'], ['status', 'color']],
-  })
-  async delete(itemId: ItemId): Promise<void> {
-    await this.itemModel.findByIdAndDelete(new Types.ObjectId(itemId));
   }
 
   private static toDomain(itemModel: ItemMongoModel): IItem {

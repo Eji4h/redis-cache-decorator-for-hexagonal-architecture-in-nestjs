@@ -1,5 +1,6 @@
 import {
   IsEnum,
+  IsIn,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -24,9 +25,9 @@ export class UpdateItemV1Dto implements Omit<UpdateItemCommand, 'id'> {
   @IsOptional()
   imageUrl?: string;
 
-  @IsEnum(ItemStatus)
+  @IsIn([ItemStatus.Available, ItemStatus.Unavailable])
   @IsOptional()
-  status?: ItemStatus;
+  status?: ItemStatus.Available | ItemStatus.Unavailable;
 
   @IsEnum(ItemColor)
   @IsOptional()

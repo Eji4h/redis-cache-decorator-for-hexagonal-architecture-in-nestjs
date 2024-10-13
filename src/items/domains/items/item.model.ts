@@ -13,8 +13,9 @@ export interface IItem {
   changeName(name: string): this;
   changePrice(price: number): this;
   changeImageUrl(imageUrl: string): this;
-  changeStatus(status: ItemStatus): this;
   changeColor(color: ItemColor): this;
+  changeStatus(status: ItemStatus): this;
+  obsoleted(): this;
 }
 
 export class Item implements IItem {
@@ -40,13 +41,18 @@ export class Item implements IItem {
     return this;
   }
 
+  changeColor(color: ItemColor): this {
+    this.color = color;
+    return this;
+  }
+
   changeStatus(status: ItemStatus): this {
     this.status = status;
     return this;
   }
 
-  changeColor(color: ItemColor): this {
-    this.color = color;
+  obsoleted(): this {
+    this.status = ItemStatus.Obsoleted;
     return this;
   }
 }

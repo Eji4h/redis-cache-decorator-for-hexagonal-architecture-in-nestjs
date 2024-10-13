@@ -1,11 +1,10 @@
-import { first } from 'radash';
-
 export function generateKey(
   keyNames: string[],
   baseKey: string,
   args: unknown[],
 ) {
-  return first(keyNames) === 'all'
+  const isAllArgsUndefined = args.every((arg) => arg === undefined);
+  return isAllArgsUndefined
     ? `${baseKey}:all`
     : generateSuffixKey(baseKey, keyNames, args);
 }

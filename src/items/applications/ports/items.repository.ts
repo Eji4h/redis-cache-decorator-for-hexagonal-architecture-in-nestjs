@@ -15,5 +15,4 @@ export interface ItemsRepository {
   ): Promise<IItem[]>;
   findById(itemId: ItemId): Promise<IItem | undefined>;
   update(itemToUpdate: IItem): Promise<IItem>;
-  delete(itemId: ItemId): Promise<void>;
 }
