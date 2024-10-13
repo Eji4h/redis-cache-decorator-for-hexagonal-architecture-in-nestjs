@@ -23,7 +23,7 @@ down-dev:; eval "$$script"
 	docker compose down
 
 restart-and-logs-dev:; eval "$$script"
-	docker compose down && docker compose up -d && docker compose logs -f
+	docker compose down && docker compose up -d && docker compose logs -f api
 
 logs-dev:; eval "$$script"
 	docker compose logs -f
