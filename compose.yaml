@@ -5,7 +5,10 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - 4200:3000
-    env_file: ./environments/.dev.env
+    environment:
+      - MONGO_URI=mongodb://jsbangkok:Redis_HexJS2_0@mongo:27017/
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=Redis_HexJS2_0
     volumes:
       - ./:/app
       - $PNPM_PATH:$PNPM_PATH
@@ -40,8 +43,7 @@ services:
   redis:
     image: docker.io/bitnami/redis:7.4.1
     environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-      # - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL # disable for development environment
+      - REDIS_PASSWORD=Redis_HexJS2_0
     volumes:
       - 'redis_data:/bitnami/redis/data'
     networks:

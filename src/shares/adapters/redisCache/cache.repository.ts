@@ -1,4 +1,6 @@
-const cacheRepositorySymbolToken: unique symbol = Symbol('CacheRepositoryToken');
+const cacheRepositorySymbolToken: unique symbol = Symbol(
+  'CacheRepositoryToken',
+);
 export const cacheRepositoryToken = cacheRepositorySymbolToken.toString();
 
 export interface CacheRepository {

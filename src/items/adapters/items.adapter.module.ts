@@ -3,7 +3,11 @@ import { ItemsV1Controller } from './inbounds/items.v1.controller';
 import { ItemsRepositoryToken } from '../applications/ports';
 import { ItemsMongoRepository } from './outbounds/repository/items.mongo.repository';
 import { MongooseModule } from '@nestjs/mongoose';
-import { mongoUri, redisHost } from '../../shares/adapters/configs';
+import {
+  mongoUri,
+  redisHost,
+  redisPassword,
+} from '../../shares/adapters/configs';
 import {
   ItemCollectionName,
   ItemMongoSchema,
@@ -19,6 +23,7 @@ import { CacheModule } from '@nestjs/cache-manager';
       useFactory: async () => {
         const store = await redisStore({
           host: redisHost,
+          password: redisPassword,
         });
 
         return { isGlobal: true, store };

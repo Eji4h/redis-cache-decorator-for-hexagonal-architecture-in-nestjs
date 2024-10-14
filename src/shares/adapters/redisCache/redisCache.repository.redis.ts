@@ -16,9 +16,9 @@ export interface RedisConnectionConfig {
 export class RedisCacheRepository implements CacheRepository {
   redisInstance: Redis;
 
-  private host: string;
-  private port: number;
-  private password: string;
+  private readonly host: string;
+  private readonly port: number;
+  private readonly password: string;
 
   constructor(
     @Inject(RedisConnectionConfigToken)
@@ -33,6 +33,7 @@ export class RedisCacheRepository implements CacheRepository {
     this.redisInstance = new Redis({
       host: this.host,
       port: this.port,
+      password: this.password,
     });
     await this.redisInstance.info();
   }
