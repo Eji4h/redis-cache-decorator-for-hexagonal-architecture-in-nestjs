@@ -1,0 +1,9 @@
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./:/app
+      - $PNPM_PATH:$PNPM_PATH
+    entrypoint: sh -c "pnpm config set store-dir $PNPM_PATH && pnpm i"

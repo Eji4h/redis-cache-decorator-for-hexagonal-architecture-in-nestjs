@@ -1,0 +1,56 @@
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    ports:
+      - 4200:3000
+    environment:
+      - MONGO_URI=mongodb://jsbangkok:Redis_HexJS2_0@mongo:27017/
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=Redis_HexJS2_0
+    volumes:
+      - ./:/app
+      - $PNPM_PATH:$PNPM_PATH
+    entrypoint: sh -c "pnpm config set store-dir $PNPM_PATH && pnpm start:dev"
+    # entrypoint: 'sleep 9999'
+    restart: always
+    networks:
+      - backend
+
+  mongo:
+    image: mongo:8.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: jsbangkok
+      MONGO_INITDB_ROOT_PASSWORD: Redis_HexJS2_0
+    volumes:
+      # - ./mongo/init:/docker-entrypoint-initdb.d
+      - ./mongo/data:/data/db
+    networks:
+      - backend
+
+  mongo-express:
+    image: mongo-express:1.0.2-20-alpine3.19
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://jsbangkok:Redis_HexJS2_0@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+    networks:
+      - backend
+
+  redis:
+    image: docker.io/bitnami/redis:7.4.1
+    environment:
+      - REDIS_PASSWORD=Redis_HexJS2_0
+    volumes:
+      - 'redis_data:/bitnami/redis/data'
+    networks:
+      - backend
+
+volumes:
+  redis_data:
+
+networks:
+  backend:
