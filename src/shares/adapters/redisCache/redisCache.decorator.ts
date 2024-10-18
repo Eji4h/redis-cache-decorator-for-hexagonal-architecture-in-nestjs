@@ -14,7 +14,7 @@ export function CacheForRepository<Model, Domain>({
 }: {
   baseKey: string;
   mapper: RedisMapper<Model, Domain>;
-  keyNames?: KeyName<Domain>[];
+  keyNames: KeyName<Domain>[];
   ttlMinutes?: number;
 }) {
   return function (
