@@ -1,4 +1,3 @@
-import { GetItemByIdUseCase } from './../../applications/usecases/getItemById.usecase';
 import {
   Body,
   Controller,
@@ -9,7 +8,8 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { ItemIdV1Dto } from './itemId.v1.dto';
+import { StrictBuilder } from 'builder-pattern';
+
 import {
   CreateItemCommand,
   CreateItemUseCase,
@@ -18,10 +18,11 @@ import {
   UpdateItemCommand,
   UpdateItemUseCase,
 } from '../../applications/usecases';
-import { StrictBuilder } from 'builder-pattern';
-import { UpdateItemV1Dto } from './updateItem.v1.dto';
+import { GetItemByIdUseCase } from './../../applications/usecases/getItemById.usecase';
 import { CreateItemV1Dto } from './createItem.v1.dto';
 import { GetItemsV1Dto } from './getItems.v1.dto';
+import { ItemIdV1Dto } from './itemId.v1.dto';
+import { UpdateItemV1Dto } from './updateItem.v1.dto';
 
 @Controller('items')
 export class ItemsV1Controller {

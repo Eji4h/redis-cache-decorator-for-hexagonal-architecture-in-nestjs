@@ -1,8 +1,9 @@
+import { Builder } from 'builder-pattern';
 import { mock } from 'jest-mock-extended';
+
+import { IItem, Item, ItemColor, ItemId, ItemStatus } from '../../domains';
 import { ItemsRepository } from '../ports';
 import { GetItemsUseCase } from './getItems.usecase';
-import { Builder } from 'builder-pattern';
-import { IItem, Item, ItemColor, ItemId, ItemStatus } from '../../domains';
 
 describe('GetItemsUsecase', () => {
   const itemRepository = mock<ItemsRepository>();

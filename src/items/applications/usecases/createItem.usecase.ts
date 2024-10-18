@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ItemsRepository, ItemsRepositoryToken } from '../ports';
+
 import { IItem, ItemAttributes, ItemFactory, ItemStatus } from '../../domains';
+import { ItemsRepository, ItemsRepositoryToken } from '../ports';
 
 export type CreateItemCommand = Omit<ItemAttributes, 'id' | 'status'> &
   Partial<Pick<ItemAttributes, 'status'>>;

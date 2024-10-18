@@ -7,8 +7,9 @@ import {
   IsString,
   IsUrl,
 } from 'class-validator';
+
 import { UpdateItemCommand } from '../../applications/usecases';
-import { ItemStatus, ItemColor } from '../../domains';
+import { ItemColor, ItemStatus } from '../../domains';
 
 export class UpdateItemV1Dto implements Omit<UpdateItemCommand, 'id'> {
   @IsString()

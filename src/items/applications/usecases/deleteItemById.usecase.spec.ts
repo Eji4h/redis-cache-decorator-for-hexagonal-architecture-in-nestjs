@@ -1,9 +1,10 @@
+import { NotFoundException } from '@nestjs/common';
 import { mock } from 'jest-mock-extended';
+import { clone } from 'lodash';
+
+import { ItemColor, ItemFactory, ItemId, ItemStatus } from '../../domains';
 import { ItemsRepository } from '../ports';
 import { DeleteItemByIdUseCase } from './deleteItemById.usecase';
-import { ItemColor, ItemFactory, ItemId, ItemStatus } from '../../domains';
-import { clone } from 'lodash';
-import { NotFoundException } from '@nestjs/common';
 
 describe('DeleteItemByIdUseCase', () => {
   const itemRepository = mock<ItemsRepository>();

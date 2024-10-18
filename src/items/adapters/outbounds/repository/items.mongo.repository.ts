@@ -1,18 +1,19 @@
+import { Cache, CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
-import { ItemsRepository } from '../../../applications/ports';
 import { InjectModel } from '@nestjs/mongoose';
-import { ItemCollectionName } from './mongo/item.mongo.schema';
-import { Model, RootFilterQuery, Types } from 'mongoose';
-import { IItem, ItemId, Item, ItemStatus, ItemColor } from '../../../domains';
-import { ItemMongoModel } from './mongo/item.mongo.model';
 import { Builder } from 'builder-pattern';
+import { isUndefined, omitBy } from 'lodash';
+import { Model, RootFilterQuery, Types } from 'mongoose';
+
+import { redisCacheTtlMinutes } from '../../../../shares/adapters/configs';
 import {
   CacheForRepository,
   InvalidateRedisCacheForRepository,
 } from '../../../../shares/adapters/redisCache';
-import { redisCacheTtlMinutes } from '../../../../shares/adapters/configs';
-import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
-import { isUndefined, omitBy } from 'lodash';
+import { ItemsRepository } from '../../../applications/ports';
+import { IItem, Item, ItemColor, ItemId, ItemStatus } from '../../../domains';
+import { ItemMongoModel } from './mongo/item.mongo.model';
+import { ItemCollectionName } from './mongo/item.mongo.schema';
 
 @Injectable()
 export class ItemsMongoRepository implements ItemsRepository {
@@ -76,11 +77,6 @@ export class ItemsMongoRepository implements ItemsRepository {
   })
   async findById(itemId: ItemId): Promise<IItem | undefined> {
     const item = await this.itemModel.findById(new Types.ObjectId(itemId));
-    console.debug(
-      'Request was flighted through mongoose repository to looking for item',
-      itemId,
-    );
-
     return item ? ItemsMongoRepository.toDomain(item) : undefined;
   }
 

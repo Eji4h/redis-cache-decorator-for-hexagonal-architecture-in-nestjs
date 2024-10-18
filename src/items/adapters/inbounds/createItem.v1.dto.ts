@@ -1,6 +1,3 @@
-import { ItemStatus, ItemColor } from 'src/items/domains';
-import { CreateItemCommand } from '../../applications/usecases';
-
 import {
   IsEnum,
   IsNotEmpty,
@@ -9,6 +6,9 @@ import {
   IsString,
   IsUrl,
 } from 'class-validator';
+import { ItemColor, ItemStatus } from 'src/items/domains';
+
+import { CreateItemCommand } from '../../applications/usecases';
 
 export class CreateItemV1Dto implements CreateItemCommand {
   @IsString()

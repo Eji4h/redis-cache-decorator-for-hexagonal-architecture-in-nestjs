@@ -1,9 +1,10 @@
+import { NotFoundException } from '@nestjs/common';
+import { Builder } from 'builder-pattern';
 import { mock } from 'jest-mock-extended';
+
+import { IItem, ItemId } from '../../domains';
 import { ItemsRepository } from '../ports';
 import { GetItemByIdUseCase } from './getItemById.usecase';
-import { IItem, ItemId } from '../../domains';
-import { Builder } from 'builder-pattern';
-import { NotFoundException } from '@nestjs/common';
 
 describe('GetItemByIdUsecase', () => {
   const itemRepository = mock<ItemsRepository>();

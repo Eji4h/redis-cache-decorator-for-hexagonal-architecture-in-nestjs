@@ -1,6 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { ItemsRepository, ItemsRepositoryToken } from '../ports';
+
 import { IItem, ItemId } from '../../domains';
+import { ItemsRepository, ItemsRepositoryToken } from '../ports';
 
 @Injectable()
 export class GetItemByIdUseCase {

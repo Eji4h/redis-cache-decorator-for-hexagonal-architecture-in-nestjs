@@ -1,8 +1,9 @@
-import { mock } from 'jest-mock-extended';
-import { ItemsRepository } from '../ports';
-import { CreateItemUseCase, CreateItemCommand } from './createItem.usecase';
 import { Builder, StrictBuilder } from 'builder-pattern';
+import { mock } from 'jest-mock-extended';
+
 import { Item, ItemColor, ItemStatus } from '../../domains';
+import { ItemsRepository } from '../ports';
+import { CreateItemCommand, CreateItemUseCase } from './createItem.usecase';
 
 describe('CreateItemUseCase', () => {
   const itemRepository = mock<ItemsRepository>();

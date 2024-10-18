@@ -1,4 +1,5 @@
 import { Builder } from 'builder-pattern';
+
 import { ItemAttributes } from './item.attribute';
 import { IItem, Item } from './item.model';
 import { ItemStatus } from './itemStatus.enum';

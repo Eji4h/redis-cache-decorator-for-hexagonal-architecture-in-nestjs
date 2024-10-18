@@ -1,4 +1,4 @@
-import { IItem, ItemId, ItemColor, ItemStatus } from '../../domains';
+import { IItem, ItemColor, ItemId, ItemStatus } from '../../domains';
 
 export const ItemsRepositoryToken = Symbol('ItemsRepositoryToken').toString();
 
