@@ -44,8 +44,8 @@ services:
     image: docker.io/bitnami/redis:7.4.1
     environment:
       - REDIS_PASSWORD=Redis_HexJS2_0
-    volumes:
-      - 'redis_data:/bitnami/redis/data'
+    # volumes:
+    #   - 'redis_data:/bitnami/redis/data'
     networks:
       - backend
 
