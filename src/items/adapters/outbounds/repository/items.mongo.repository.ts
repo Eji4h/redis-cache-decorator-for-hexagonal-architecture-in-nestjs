@@ -76,11 +76,6 @@ export class ItemsMongoRepository implements ItemsRepository {
   })
   async findById(itemId: ItemId): Promise<IItem | undefined> {
     const item = await this.itemModel.findById(new Types.ObjectId(itemId));
-    console.debug(
-      'Request was flighted through mongoose repository to looking for item',
-      itemId,
-    );
-
     return item ? ItemsMongoRepository.toDomain(item) : undefined;
   }
 

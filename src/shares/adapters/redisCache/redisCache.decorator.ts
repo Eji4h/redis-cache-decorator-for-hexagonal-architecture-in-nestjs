@@ -80,7 +80,6 @@ function mapCacheHit<Model, Domain>(
   mapper: RedisMapper<Model, Domain>,
 ) {
   console.debug(`cache hit: ${cacheKey}`);
-  console.debug(`model: ${JSON.stringify(model, null, 2)}`);
   return match(model)
     .when(Array.isArray, (_model) => _model.map(mapper))
     .otherwise((_model) => (_model ? mapper(_model) : undefined));

@@ -18,10 +18,7 @@ function generateSuffixKey(
   const suffixKey = keyNames
     .reduce((acc, name, i) => `${acc}${name}:${args[i]},`, '')
     .slice(0, -1);
-  const key = `${baseKey}:{${suffixKey}}`;
-  console.debug(`[Cache] generated suffix key: ${key}`);
-
-  return key;
+  return `${baseKey}:{${suffixKey}}`;
 }
 
 export const mapDomainToModel = <Domain, Model>(
