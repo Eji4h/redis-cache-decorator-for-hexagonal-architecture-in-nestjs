@@ -1,6 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+
 import { ItemId } from '../../domains';
-import { ItemsRepositoryToken, ItemsRepository } from '../ports';
+import { ItemsRepository, ItemsRepositoryToken } from '../ports';
 
 @Injectable()
 export class DeleteItemByIdUseCase {

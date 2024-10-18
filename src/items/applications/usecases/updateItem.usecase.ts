@@ -1,8 +1,8 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { ItemsRepository, ItemsRepositoryToken } from '../ports';
-import { IItem } from '../../domains';
 
+import { IItem } from '../../domains';
 import { ItemAttributes, ItemId } from '../../domains';
+import { ItemsRepository, ItemsRepositoryToken } from '../ports';
 
 export interface UpdateItemCommand extends Partial<ItemAttributes> {
   id: ItemId;

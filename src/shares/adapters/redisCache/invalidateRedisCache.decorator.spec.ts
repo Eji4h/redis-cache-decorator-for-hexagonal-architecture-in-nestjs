@@ -1,10 +1,10 @@
 import { Builder } from 'builder-pattern';
 
+import { Item, ItemStatus } from '../../../items/domains';
 import {
   generateKeyFromCombination,
   KeyCombination,
 } from './invalidateRedisCache.decorator';
-import { Item, ItemStatus } from '../../../items/domains';
 
 describe('InvalidateRedisCacheForRepository', () => {
   describe('generateKeyFromCombination', () => {

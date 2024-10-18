@@ -1,9 +1,10 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+
+import { IItem, ItemColor, ItemStatus } from '../../domains';
 import {
   ItemsRepository,
   ItemsRepositoryToken,
 } from '../ports/items.repository';
-import { IItem, ItemColor, ItemStatus } from '../../domains';
 
 export interface GetItemsQuery {
   status?: ItemStatus;

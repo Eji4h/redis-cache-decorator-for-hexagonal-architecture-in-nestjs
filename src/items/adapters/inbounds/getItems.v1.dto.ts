@@ -1,5 +1,6 @@
 import { IsEnum, IsOptional } from 'class-validator';
-import { ItemStatus, ItemColor } from '../../domains';
+
+import { ItemColor, ItemStatus } from '../../domains';
 
 export class GetItemsV1Dto {
   @IsOptional()

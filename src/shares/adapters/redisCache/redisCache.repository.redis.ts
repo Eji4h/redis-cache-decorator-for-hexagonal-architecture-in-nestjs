@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Redis } from 'ioredis';
+
 import { CacheRepository } from './cache.repository';
 
 const RedisConnectionConfigToken = Symbol(
