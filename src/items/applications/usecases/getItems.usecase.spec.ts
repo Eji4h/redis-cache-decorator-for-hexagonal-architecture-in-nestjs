@@ -13,6 +13,10 @@ describe('GetItemsUsecase', () => {
     getItemsUseCase = new GetItemsUseCase(itemRepository);
   });
 
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   it('should return all items', async () => {
     // Arrange
     const itemId1 = 'JavaScript' as ItemId;
@@ -21,7 +25,7 @@ describe('GetItemsUsecase', () => {
     const itemId2 = 'Bangkok2.0' as ItemId;
     const item2 = Builder<IItem>().id(itemId2).build();
 
-    itemRepository.findByStatusAndColor.mockResolvedValue([item1, item2]);
+    itemRepository.findAll.mockResolvedValue([item1, item2]);
 
     const expected = [item1, item2];
 
@@ -30,11 +34,12 @@ describe('GetItemsUsecase', () => {
 
     // Assert
     expect(actual).toEqual(expected);
+    expect(itemRepository.findAll).toHaveBeenCalled();
+    expect(itemRepository.findByStatusAndColor).not.toHaveBeenCalled();
   });
 
   it.each`
     status                    | color
-    ${undefined}              | ${undefined}
     ${ItemStatus.Available}   | ${undefined}
     ${ItemStatus.Unavailable} | ${undefined}
     ${ItemStatus.Obsoleted}   | ${undefined}
@@ -50,26 +55,28 @@ describe('GetItemsUsecase', () => {
       const itemId1 = 'JavaScript' as ItemId;
       const item1 = Builder(Item)
         .id(itemId1)
-        .status(ItemStatus.Available)
+        .status(status)
+        .color(color)
         .build();
 
       const itemId2 = 'Bangkok2.0' as ItemId;
       const item2 = Builder(Item)
         .id(itemId2)
-        .status(ItemStatus.Available)
+        .status(status)
+        .color(color)
         .build();
 
       itemRepository.findByStatusAndColor.mockResolvedValue([item1, item2]);
-
-      const expected = [status, color];
 
       // Act
       await getItemsUseCase.execute(query);
 
       // Assert
       expect(itemRepository.findByStatusAndColor).toHaveBeenCalledWith(
-        ...expected,
+        status,
+        color,
       );
+      expect(itemRepository.findAll).not.toHaveBeenCalled();
     },
   );
 });

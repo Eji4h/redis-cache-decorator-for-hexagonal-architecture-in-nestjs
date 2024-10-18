@@ -18,8 +18,8 @@ export function CacheForRepository<Model, Domain>({
   ttlMinutes?: number;
 }) {
   return function (
-    target: unknown,
-    propertyKey: string,
+    _target: unknown,
+    _propertyKey: string,
     propertyDescriptor: PropertyDescriptor,
   ) {
     const originalMethod = propertyDescriptor.value;
@@ -45,6 +45,7 @@ export function CacheForRepository<Model, Domain>({
         | Domain[];
       const resultModel = mapDomainToCache(result);
 
+      // Set to cache
       try {
         if (result) {
           const ttl = calculateTTL(ttlMinutes);

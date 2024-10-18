@@ -10,8 +10,8 @@ export function InvalidateRedisCacheForRepository<Domain>({
   keyCombinations?: Array<KeyCombination<Domain>>;
 }) {
   return function (
-    target: unknown,
-    propertyKey: string,
+    _target: unknown,
+    _propertyKey: string,
     propertyDescriptor: PropertyDescriptor,
   ) {
     const originalMethod = propertyDescriptor.value;

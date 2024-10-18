@@ -39,7 +39,7 @@ export class ItemsV1Controller {
   }
 
   @Get(':itemId')
-  async getItem(@Param() { itemId }: ItemIdV1Dto) {
+  async getItemById(@Param() { itemId }: ItemIdV1Dto) {
     return this.getItemByIdUseCase.execute(itemId);
   }
 

@@ -3,9 +3,7 @@ import {
   ItemsRepository,
   ItemsRepositoryToken,
 } from '../ports/items.repository';
-import { IItem, ItemColor } from '../../domains';
-
-import { ItemStatus } from '../../domains';
+import { IItem, ItemColor, ItemStatus } from '../../domains';
 
 export interface GetItemsQuery {
   status?: ItemStatus;
@@ -20,6 +18,14 @@ export class GetItemsUseCase {
   ) {}
 
   async execute(query: GetItemsQuery): Promise<IItem[]> {
-    return this.itemRepository.findByStatusAndColor(query.status, query.color);
+    const isHaveQuery = !!query.status || !!query.color;
+    if (isHaveQuery) {
+      return this.itemRepository.findByStatusAndColor(
+        query.status,
+        query.color,
+      );
+    }
+
+    return this.itemRepository.findAll();
   }
 }

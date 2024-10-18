@@ -20,9 +20,9 @@ export class ItemsMongoRepository implements ItemsRepository {
 
   constructor(
     @InjectModel(ItemCollectionName)
-    private itemModel: Model<ItemMongoModel>,
+    private readonly itemModel: Model<ItemMongoModel>,
     @Inject(CACHE_MANAGER)
-    private _cacheManager: Cache,
+    private readonly _cacheManager: Cache,
   ) {}
 
   @InvalidateRedisCacheForRepository({
@@ -34,6 +34,11 @@ export class ItemsMongoRepository implements ItemsRepository {
     const createdItem = await newItemModel.save();
 
     return ItemsMongoRepository.toDomain(createdItem);
+  }
+
+  async findAll(): Promise<IItem[]> {
+    const items = await this.itemModel.find();
+    return items.map(ItemsMongoRepository.toDomain);
   }
 
   @CacheForRepository({
@@ -54,10 +59,6 @@ export class ItemsMongoRepository implements ItemsRepository {
     const finalQuery = omitBy(findBy, isUndefined);
 
     const items = await this.itemModel.find(finalQuery);
-    console.debug(
-      'Request was flighted through mongoose repository to find all',
-    );
-
     return items.map(ItemsMongoRepository.toDomain);
   }
 
