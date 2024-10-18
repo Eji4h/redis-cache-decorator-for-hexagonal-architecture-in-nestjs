@@ -36,6 +36,12 @@ export class ItemsMongoRepository implements ItemsRepository {
     return ItemsMongoRepository.toDomain(createdItem);
   }
 
+  @CacheForRepository({
+    baseKey: ItemsMongoRepository.cacheKey,
+    keyNames: ['all'],
+    mapper: ItemsMongoRepository.toDomain,
+    ttlMinutes: redisCacheTtlMinutes,
+  })
   async findAll(): Promise<IItem[]> {
     const items = await this.itemModel.find();
     return items.map(ItemsMongoRepository.toDomain);
