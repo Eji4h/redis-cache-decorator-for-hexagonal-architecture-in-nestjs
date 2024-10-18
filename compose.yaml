@@ -23,9 +23,9 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: jsbangkok
       MONGO_INITDB_ROOT_PASSWORD: Redis_HexJS2_0
-    volumes:
-      # - ./mongo/init:/docker-entrypoint-initdb.d
-      - ./mongo/data:/data/db
+    # volumes:
+    # - ./mongo/init:/docker-entrypoint-initdb.d
+    # - ./mongo/data:/data/db
     networks:
       - backend
 
