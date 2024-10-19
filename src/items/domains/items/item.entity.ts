@@ -46,7 +46,7 @@ export class Item implements IItem {
     return this;
   }
 
-  changeStatus(status: ItemStatus): this {
+  changeStatus(status: Exclude<ItemStatus, ItemStatus.Obsoleted>): this {
     this.status = status;
     return this;
   }
