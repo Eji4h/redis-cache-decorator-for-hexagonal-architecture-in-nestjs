@@ -48,7 +48,7 @@ describe('GetItemsUsecase', () => {
     ${undefined}              | ${ItemColor.Green}
     ${undefined}              | ${ItemColor.Blue}
   `(
-    'should find item with specific parameters',
+    'should find item with status $status and color $color',
     async ({ status, color }: { status: ItemStatus; color: ItemColor }) => {
       // Arrange
       const query = { status, color };
@@ -76,6 +76,44 @@ describe('GetItemsUsecase', () => {
       expect(itemRepository.findByStatusAndColor).toHaveBeenCalledWith(
         status,
         color,
+      );
+      expect(itemRepository.findAll).not.toHaveBeenCalled();
+    },
+  );
+
+  it.each`
+    country            | category
+    ${'Thailand'}      | ${'Clothes'}
+    ${'United States'} | ${'Decorator'}
+  `(
+    'should find item with country $country and category $category',
+    async ({ country, category }: { country: string; category: string }) => {
+      // Arrange
+      const query = { country, category };
+
+      const itemId1 = 'JavaScript' as ItemId;
+      const item1 = Builder(Item)
+        .id(itemId1)
+        .country(country)
+        .category(category)
+        .build();
+
+      const itemId2 = 'Bangkok2.0' as ItemId;
+      const item2 = Builder(Item)
+        .id(itemId2)
+        .country(country)
+        .category(category)
+        .build();
+
+      itemRepository.findByCountryAndCategory.mockResolvedValue([item1, item2]);
+
+      // Act
+      await getItemsUseCase.execute(query);
+
+      // Assert
+      expect(itemRepository.findByCountryAndCategory).toHaveBeenCalledWith(
+        country,
+        category,
       );
       expect(itemRepository.findAll).not.toHaveBeenCalled();
     },

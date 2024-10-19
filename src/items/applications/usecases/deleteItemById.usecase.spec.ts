@@ -43,6 +43,8 @@ describe('DeleteItemByIdUseCase', () => {
       imageUrl: 'https://example.com/image.png',
       status: ItemStatus.Available,
       color: ItemColor.Red,
+      country: 'Thailand',
+      category: 'Clothes',
     });
 
     const expectedItem = clone(itemToDelete);

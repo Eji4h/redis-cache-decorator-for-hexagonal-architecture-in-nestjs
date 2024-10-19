@@ -4,7 +4,8 @@ import { IItem, ItemId, ItemStatus } from '../../domains';
 import { ItemAttributes } from '../../domains';
 import { ItemsRepository, ItemsRepositoryToken } from '../ports';
 
-export interface UpdateItemCommand extends Partial<ItemAttributes> {
+export interface UpdateItemCommand
+  extends Partial<Omit<ItemAttributes, 'color'>> {
   id: ItemId;
   status?: Exclude<ItemStatus, ItemStatus.Obsoleted>;
 }
@@ -37,11 +38,6 @@ export class UpdateItemUseCase {
     const isWantToChangeImageUrl = command.imageUrl !== undefined;
     if (isWantToChangeImageUrl) {
       item.changeImageUrl(command.imageUrl);
-    }
-
-    const isWantToChangeColor = command.color !== undefined;
-    if (isWantToChangeColor) {
-      item.changeColor(command.color);
     }
 
     const isWantToChangeStatus = command.status !== undefined;

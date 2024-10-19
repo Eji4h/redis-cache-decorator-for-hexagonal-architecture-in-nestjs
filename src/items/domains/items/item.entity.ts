@@ -9,6 +9,8 @@ export interface IItem {
   imageUrl: string;
   status: ItemStatus;
   color: ItemColor;
+  country: string;
+  category: string;
 
   changeName(name: string): this;
   changePrice(price: number): this;
@@ -25,6 +27,8 @@ export class Item implements IItem {
   imageUrl: string;
   status: ItemStatus;
   color: ItemColor;
+  country: string;
+  category: string;
 
   changeName(name: string): this {
     this.name = name;

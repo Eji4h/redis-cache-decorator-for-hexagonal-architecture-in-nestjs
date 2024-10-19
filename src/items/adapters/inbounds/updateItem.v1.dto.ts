@@ -1,5 +1,4 @@
 import {
-  IsEnum,
   IsIn,
   IsNotEmpty,
   IsNumber,
@@ -9,7 +8,7 @@ import {
 } from 'class-validator';
 
 import { UpdateItemCommand } from '../../applications/usecases';
-import { ItemColor, ItemStatus } from '../../domains';
+import { ItemStatus } from '../../domains';
 
 export class UpdateItemV1Dto implements Omit<UpdateItemCommand, 'id'> {
   @IsString()
@@ -29,8 +28,4 @@ export class UpdateItemV1Dto implements Omit<UpdateItemCommand, 'id'> {
   @IsIn([ItemStatus.Available, ItemStatus.Unavailable])
   @IsOptional()
   status?: ItemStatus.Available | ItemStatus.Unavailable;
-
-  @IsEnum(ItemColor)
-  @IsOptional()
-  color?: ItemColor;
 }

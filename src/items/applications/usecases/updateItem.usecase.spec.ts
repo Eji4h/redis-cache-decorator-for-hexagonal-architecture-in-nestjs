@@ -2,7 +2,7 @@ import { NotFoundException } from '@nestjs/common';
 import { Builder, StrictBuilder } from 'builder-pattern';
 import { mock } from 'jest-mock-extended';
 
-import { IItem, Item, ItemColor, ItemId, ItemStatus } from '../../domains';
+import { IItem, Item, ItemId, ItemStatus } from '../../domains';
 import { ItemsRepository } from '../ports';
 import { UpdateItemCommand, UpdateItemUseCase } from './updateItem.usecase';
 
@@ -97,23 +97,6 @@ describe('UpdateItemUsecase', () => {
       .build();
 
     const expected = Builder<IItem>().id(itemId).status(newStatus).build();
-
-    // Act
-    await updateItemUseCase.execute(command);
-
-    // Assert
-    expect(itemRepository.update).toHaveBeenCalledWith(expected);
-  });
-
-  it("should change item's color", async () => {
-    // Arrange
-    const newColor = ItemColor.Red;
-    const command = StrictBuilder<UpdateItemCommand>()
-      .id(itemId)
-      .color(newColor)
-      .build();
-
-    const expected = Builder<IItem>().id(itemId).color(newColor).build();
 
     // Act
     await updateItemUseCase.execute(command);

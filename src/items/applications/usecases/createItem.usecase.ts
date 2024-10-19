@@ -19,6 +19,8 @@ export class CreateItemUseCase {
     imageUrl,
     status,
     color,
+    country,
+    category,
   }: CreateItemCommand): Promise<IItem> {
     const itemToCreate = ItemFactory.create({
       name,
@@ -26,6 +28,8 @@ export class CreateItemUseCase {
       imageUrl,
       status: status ?? ItemStatus.Available,
       color,
+      country,
+      category,
     });
     return this.itemRepository.create(itemToCreate);
   }
