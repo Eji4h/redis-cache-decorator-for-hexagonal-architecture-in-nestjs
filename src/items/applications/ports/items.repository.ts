@@ -10,6 +10,7 @@ export interface FindAllQuery {
 export interface ItemsRepository {
   create(item: IItem): Promise<IItem>;
   findAll(): Promise<IItem[]>;
+  findByCountryAndCategory(country: string, category: string): Promise<IItem[]>;
   findByStatusAndColor(
     status: ItemStatus | undefined,
     color: ItemColor | undefined,

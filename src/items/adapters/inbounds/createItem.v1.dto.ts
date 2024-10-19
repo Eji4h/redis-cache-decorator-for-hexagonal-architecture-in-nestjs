@@ -28,4 +28,12 @@ export class CreateItemV1Dto implements CreateItemCommand {
 
   @IsEnum(ItemColor)
   color: ItemColor;
+
+  @IsString()
+  @IsNotEmpty()
+  country: string;
+
+  @IsString()
+  @IsNotEmpty()
+  category: string;
 }

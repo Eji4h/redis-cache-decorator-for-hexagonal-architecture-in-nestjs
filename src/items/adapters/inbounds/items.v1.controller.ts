@@ -52,6 +52,8 @@ export class ItemsV1Controller {
       .imageUrl(body.imageUrl)
       .status(body.status)
       .color(body.color)
+      .country(body.country)
+      .category(body.category)
       .build();
     return this.createItemUseCase.execute(command);
   }
@@ -67,7 +69,6 @@ export class ItemsV1Controller {
       .price(body.price)
       .imageUrl(body.imageUrl)
       .status(body.status)
-      .color(body.color)
       .build();
     return this.updateItemUseCase.execute(command);
   }

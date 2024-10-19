@@ -15,6 +15,8 @@ describe('CreateItemUseCase', () => {
   const itemImageUrl = 'https://example.com/image.png';
   const itemStatus = ItemStatus.Available;
   const itemColor = ItemColor.Red;
+  const itemCountry = 'Thailand';
+  const itemCategory = 'Clothes';
 
   beforeEach(() => {
     useCase = new CreateItemUseCase(itemRepository);
@@ -28,6 +30,8 @@ describe('CreateItemUseCase', () => {
       .imageUrl(itemImageUrl)
       .status(itemStatus)
       .color(itemColor)
+      .country(itemCountry)
+      .category(itemCategory)
       .build();
 
     const expectedItem = Builder(Item)
@@ -36,6 +40,8 @@ describe('CreateItemUseCase', () => {
       .imageUrl(itemImageUrl)
       .status(itemStatus)
       .color(itemColor)
+      .country(itemCountry)
+      .category(itemCategory)
       .build();
 
     // Act
@@ -52,6 +58,8 @@ describe('CreateItemUseCase', () => {
       .price(itemPrice)
       .imageUrl(itemImageUrl)
       .color(itemColor)
+      .country(itemCountry)
+      .category(itemCategory)
       .build();
 
     const expectedItem = Builder(Item)
@@ -60,6 +68,8 @@ describe('CreateItemUseCase', () => {
       .imageUrl(itemImageUrl)
       .status(ItemStatus.Available)
       .color(itemColor)
+      .country(itemCountry)
+      .category(itemCategory)
       .build();
 
     // Act

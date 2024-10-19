@@ -20,6 +20,12 @@ export class ItemSchema implements Omit<ItemMongoModel, '_id'> {
 
   @Prop({ required: true })
   color: ItemColor;
+
+  @Prop({ required: true })
+  country: string;
+
+  @Prop({ required: true })
+  category: string;
 }
 
 export const ItemMongoSchema = SchemaFactory.createForClass(ItemSchema);

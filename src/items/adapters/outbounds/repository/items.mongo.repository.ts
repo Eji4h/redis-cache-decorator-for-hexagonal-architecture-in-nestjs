@@ -28,7 +28,7 @@ export class ItemsMongoRepository implements ItemsRepository {
 
   @InvalidateRedisCacheForRepository({
     baseKey: ItemsMongoRepository.cacheKey,
-    keyCombinations: [['id'], ['status', 'color']],
+    keyCombinations: [['id'], ['country', 'category'], ['status', 'color']],
   })
   async create(newItem: IItem): Promise<IItem> {
     const newItemModel = new this.itemModel(newItem);
@@ -50,6 +50,17 @@ export class ItemsMongoRepository implements ItemsRepository {
 
   @CacheForRepository({
     baseKey: ItemsMongoRepository.cacheKey,
+    keyNames: ['id'],
+    mapper: ItemsMongoRepository.toDomain,
+    ttlMinutes: redisCacheTtlMinutes,
+  })
+  async findById(itemId: ItemId): Promise<IItem | undefined> {
+    const item = await this.itemModel.findById(new Types.ObjectId(itemId));
+    return item ? ItemsMongoRepository.toDomain(item) : undefined;
+  }
+
+  @CacheForRepository({
+    baseKey: ItemsMongoRepository.cacheKey,
     mapper: ItemsMongoRepository.toDomain,
     ttlMinutes: redisCacheTtlMinutes,
     keyNames: ['status', 'color'],
@@ -62,7 +73,6 @@ export class ItemsMongoRepository implements ItemsRepository {
       status,
       color,
     };
-
     const finalQuery = omitBy(findBy, isUndefined);
 
     const items = await this.itemModel.find(finalQuery);
@@ -71,18 +81,27 @@ export class ItemsMongoRepository implements ItemsRepository {
 
   @CacheForRepository({
     baseKey: ItemsMongoRepository.cacheKey,
-    keyNames: ['id'],
+    keyNames: ['country', 'category'],
     mapper: ItemsMongoRepository.toDomain,
     ttlMinutes: redisCacheTtlMinutes,
   })
-  async findById(itemId: ItemId): Promise<IItem | undefined> {
-    const item = await this.itemModel.findById(new Types.ObjectId(itemId));
-    return item ? ItemsMongoRepository.toDomain(item) : undefined;
+  async findByCountryAndCategory(
+    country: string,
+    category: string,
+  ): Promise<IItem[]> {
+    const findBy: RootFilterQuery<ItemMongoModel> = {
+      country,
+      category,
+    };
+    const finalQuery = omitBy(findBy, isUndefined);
+
+    const items = await this.itemModel.find(finalQuery);
+    return items.map(ItemsMongoRepository.toDomain);
   }
 
   @InvalidateRedisCacheForRepository({
     baseKey: ItemsMongoRepository.cacheKey,
-    keyCombinations: [['id'], ['status', 'color']],
+    keyCombinations: [['id'], ['country', 'category'], ['status', 'color']],
   })
   async update(itemToUpdate: IItem): Promise<IItem> {
     const updateItemModel = await this.itemModel.findByIdAndUpdate(
@@ -102,6 +121,8 @@ export class ItemsMongoRepository implements ItemsRepository {
       .imageUrl(itemModel.imageUrl)
       .status(itemModel.status)
       .color(itemModel.color)
+      .country(itemModel.country)
+      .category(itemModel.category)
       .build();
   }
 }
