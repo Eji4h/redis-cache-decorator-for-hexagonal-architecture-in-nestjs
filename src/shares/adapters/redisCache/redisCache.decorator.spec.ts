@@ -13,7 +13,7 @@ import {
 import { CacheForRepository } from './redisCache.decorator';
 
 class TestRepository {
-  private static readonly cacheKey = 'test';
+  private static readonly cacheKey = 'tests';
   private readonly item1 = Builder(Item)
     .id('1' as ItemId)
     .name('item1')
