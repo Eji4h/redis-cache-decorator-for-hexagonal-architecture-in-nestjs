@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Builder } from 'builder-pattern';
 import { isUndefined, omitBy } from 'lodash';
 import { Model, RootFilterQuery, Types } from 'mongoose';
+import { sleep } from 'radash';
 
 import { redisCacheTtlMinutes } from '../../../../shares/adapters/configs';
 import {
@@ -14,6 +15,8 @@ import { ItemsRepository } from '../../../applications/ports';
 import { IItem, Item, ItemColor, ItemId, ItemStatus } from '../../../domains';
 import { ItemMongoModel } from './mongo/item.mongo.model';
 import { ItemCollectionName } from './mongo/item.mongo.schema';
+
+const simulateSlowDatabaseDelay = 5 * 1000;
 
 @Injectable()
 export class ItemsMongoRepository implements ItemsRepository {
@@ -44,6 +47,7 @@ export class ItemsMongoRepository implements ItemsRepository {
     ttlMinutes: redisCacheTtlMinutes,
   })
   async findAll(): Promise<IItem[]> {
+    await sleep(simulateSlowDatabaseDelay);
     const items = await this.itemModel.find();
     return items.map(ItemsMongoRepository.toDomain);
   }
@@ -55,6 +59,7 @@ export class ItemsMongoRepository implements ItemsRepository {
     ttlMinutes: redisCacheTtlMinutes,
   })
   async findById(itemId: ItemId): Promise<IItem | undefined> {
+    await sleep(simulateSlowDatabaseDelay);
     const item = await this.itemModel.findById(new Types.ObjectId(itemId));
     return item ? ItemsMongoRepository.toDomain(item) : undefined;
   }
@@ -69,6 +74,7 @@ export class ItemsMongoRepository implements ItemsRepository {
     status: ItemStatus | undefined,
     color: ItemColor | undefined,
   ): Promise<IItem[]> {
+    await sleep(simulateSlowDatabaseDelay);
     const findBy: RootFilterQuery<ItemMongoModel> = {
       status,
       color,
@@ -89,6 +95,7 @@ export class ItemsMongoRepository implements ItemsRepository {
     country: string,
     category: string,
   ): Promise<IItem[]> {
+    await sleep(simulateSlowDatabaseDelay);
     const findBy: RootFilterQuery<ItemMongoModel> = {
       country,
       category,
