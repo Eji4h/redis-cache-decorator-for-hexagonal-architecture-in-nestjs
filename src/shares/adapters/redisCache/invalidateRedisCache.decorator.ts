@@ -38,6 +38,10 @@ export function InvalidateRedisCacheForRepository<Domain>({
   };
 }
 
+// Example keys
+// `tests:all`
+// `tests:{id:1}`
+// `tests:{status:Available,color:Red}`
 export function generateKeyFromCombination<Domain>(
   baseKey: string,
   keyCombination: KeyCombination<Domain>,
