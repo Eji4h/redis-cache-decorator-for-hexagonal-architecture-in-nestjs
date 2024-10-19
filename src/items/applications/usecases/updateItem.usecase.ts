@@ -1,11 +1,12 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 
-import { IItem } from '../../domains';
-import { ItemAttributes, ItemId } from '../../domains';
+import { IItem, ItemId, ItemStatus } from '../../domains';
+import { ItemAttributes } from '../../domains';
 import { ItemsRepository, ItemsRepositoryToken } from '../ports';
 
 export interface UpdateItemCommand extends Partial<ItemAttributes> {
   id: ItemId;
+  status?: Exclude<ItemStatus, ItemStatus.Obsoleted>;
 }
 
 @Injectable()

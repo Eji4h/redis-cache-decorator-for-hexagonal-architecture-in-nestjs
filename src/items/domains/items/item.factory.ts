@@ -1,7 +1,7 @@
 import { Builder } from 'builder-pattern';
 
 import { ItemAttributes } from './item.attribute';
-import { IItem, Item } from './item.model';
+import { IItem, Item } from './item.entity';
 import { ItemStatus } from './itemStatus.enum';
 
 export type ItemToCreate = Omit<ItemAttributes, 'id'>;
