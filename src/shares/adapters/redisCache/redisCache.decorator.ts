@@ -6,6 +6,14 @@ import { generateKey, mapDomainToModel } from './redisCache.utils';
 
 type KeyName<Domain> = 'all' | keyof Domain;
 
+type ArgumentReceive<Domain> = number | string | boolean | Date | Domain;
+
+interface PropertyDescriptorOverride<Domain> extends PropertyDescriptor {
+  value?: (
+    ...args: (ArgumentReceive<Domain> | ArgumentReceive<Domain>[])[]
+  ) => Promise<Domain | Domain[]>;
+}
+
 export function CacheForRepository<Model, Domain>({
   baseKey,
   mapper,
@@ -20,10 +28,12 @@ export function CacheForRepository<Model, Domain>({
   return function (
     _target: unknown,
     _propertyKey: string,
-    propertyDescriptor: PropertyDescriptor,
+    propertyDescriptor: PropertyDescriptorOverride<Domain>,
   ) {
     const originalMethod = propertyDescriptor.value;
-    propertyDescriptor.value = async function (...args: unknown[]) {
+    propertyDescriptor.value = async function (
+      ...args: (ArgumentReceive<Domain> | ArgumentReceive<Domain>[])[]
+    ): Promise<Domain | Domain[]> {
       const cacheManager: Cache = this._cacheManager;
 
       const cacheKey = generateKey(keyNames as string[], baseKey, args);
