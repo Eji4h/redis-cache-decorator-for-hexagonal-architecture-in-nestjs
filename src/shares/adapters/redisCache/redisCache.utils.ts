@@ -16,9 +16,17 @@ function generateSuffixKey(
   args: unknown[],
 ) {
   const suffixKey = keyNames
-    .reduce((acc, name, i) => `${acc}${name}:${args[i]},`, '')
+    .reduce((acc, name, i) => {
+      const currentArg = args[i];
+      const appendValueOfKey = Array.isArray(currentArg)
+        ? `[${currentArg}]`
+        : currentArg;
+      return `${acc}${name}:${appendValueOfKey},`;
+    }, '')
     .slice(0, -1);
-  return `${baseKey}:{${suffixKey}}`;
+
+  const key = `${baseKey}:{${suffixKey}}`;
+  return key;
 }
 
 export const mapDomainToModel = <Domain, Model>(
